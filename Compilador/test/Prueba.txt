@@ -1,0 +1,30 @@
+INICIAR
+
+@
+
+TEXTO Nombre, Apellido, NombreSintoma;
+NUMERO Edad, CantidadDiasSintoma;
+
+#
+
+MOSTRAR: 'Ingrese ordenadamente los sigueintes datos Nombre Apellido Edad NombreSintoma CantidadDiasConSintoma';
+GUARDAR: Nombre, Apellido, Edad, NombreSintoma, CantidadDiasSintoma;
+
+&
+
+SI CantidadDiasSintoma>8
+FUN RecetarFuerte
+{
+MEDICAMENTOF MEDIDAF
+}
+Sino
+FUN RecetarLigero
+{
+MEDICAMENTOL MEDIDAL
+}
+
+@
+
+TERMINAR;
+
+^

@@ -1,0 +1,202 @@
+package Compilador;
+import java_cup.runtime.*;
+
+parser code {:
+    public void syntax_error(Symbol cur_token) {
+        System.out.println("Syntax error at:");
+        System.out.println("Text: \"" + cur_token.value + "\"");
+        System.out.println("Line: " + (cur_token.left + 1));
+        System.out.println("Column: " + (cur_token.right + 1));
+    }
+:}
+
+
+
+
+/* Terminal symbols */
+terminal        String      FUNCION, MEDICAMENTOF, MEDICAMENTOL, MEDIDAF, MEDIDAL, DOS_PUNTOS, INICIAR, TERMINAR, LITERAL, CONDICION_SI, CONDICION_SINO,
+                            TIPO_DATO_NUMERO, TIPO_DATO_TEXTO, PUNTO_COMA, LLAVE_A, LLAVE_C, MOSTRAR, GUARDAR, MAYOR_QUE, COMA, VARIABLE, DIGITO;
+
+
+
+
+
+/* Non terminal symbols */
+non terminal  String  inicio, dec_variable, lista_variables, menu, save, condicion, tipo_variable, cuerpo_programa, cuerpo_funcion, fun, dec_variables,
+                      cantidad;         
+
+
+
+
+
+
+
+/* My Grammar
+
+inicio       ::= BEGIN dec_variables cuerpo_programa END PUNTO_COMA; 
+
+dec_variables  ::= dec_variables dec_variable;
+                   |dec_variable;
+
+dec_variable ::= tipo_variable lista_variables PUNTO_COMA; 
+
+cuerpo_programa ::= menu condicion;
+
+tipo_variable::= TIPO_DATO_NUMERO;
+                |TIPO_DATO_TEXTO;
+
+lista_variables ::= lista_variables COMA VARIABLE;
+                 | VARIABLE;
+
+fun ::= FUNCION VARIABLE LLAVE_A cuerpo_funcion LLAVE_C;
+
+cuerpo_funcion::= MEDICAMENTOF MEDIDAF
+                | MEDICAMENTOL MEDIDAL 
+
+menu::= MOSTRAR DOS_PUNTOS LITERAL PUNTO_COMA save;
+
+save::= GUARDAR DOS_PUNTOS lista_variables PUNTO_COMA;
+
+condicion::= CONDICION_SI VARIABLE MAYOR_QUE DIGITO fun;
+                 | CONDICION_SINO fun;
+
+cantidad ::= cantidad:e1 DIGITO:n;
+            | DIGITO:n;
+
+
+*/
+
+
+
+
+
+
+
+
+ 
+/*
+inicio       ::= BEGIN dec_variables:e1 cuerpo_programa:e2 END PUNTO_COMA
+                    {: RESULT = "BEGIN" + e1 + e2 + "END" + ";" ; :} ;
+
+
+dec_variables  ::= dec_variables:e1 dec_variable:e2
+                    {: RESULT = e1 + e2 ; :}
+                   |dec_variable:e1
+                    {: RESULT = e1; :} ;
+
+dec_variable::= tipo_variable:e1 lista_variables:e2 PUNTO_COMA 
+                    {: RESULT = e1 + e2 + ";" ; :} ;
+
+
+cuerpo_programa ::= menu:e1 condicion:e2 
+                   {: RESULT = e1 + e2; :} ;
+
+tipo_variable::= TIPO_DATO_NUMERO
+                    {:  RESULT = " NUMERO"; :}
+                |TIPO_DATO_TEXTO
+                    {:  RESULT = "TEXTO"; :};
+
+
+lista_variables ::= lista_variables:e1 COMA VARIABLE:v
+                    {:  RESULT = e1 + "," + String.valueOf(v); :}
+                 | VARIABLE:v
+                    {: String.valueOf(v); :};
+  
+
+fun ::= FUNCION VARIABLE:v LLAVE_A cuerpo_funcion:e1 LLAVE_C
+                {:  RESULT = "FUN" + String.valueOf(v) + "{" +  e1 + "}" ; :};
+
+
+cuerpo_funcion::= MEDICAMENTOF MEDIDAF
+                {:RESULT= "MEDICAMENTOF" + "MEDIDAF" ;:}
+                | MEDICAMENTOL MEDIDAL  
+                {:RESULT= "MEDICAMENTOL" + "MEDIDAL" ;:};
+
+
+menu::= MOSTRAR DOS_PUNTOS LITERAL:l PUNTO_COMA save:e1
+       {:RESULT= "MOSTRAR" + ":" + String.valueOf(l) + ";" + e1 ;:}; 
+
+
+save::= GUARDAR DOS_PUNTOS lista_variables:e1 PUNTO_COMA
+        {:RESULT= "GUARDAR" + ":" + e1 + ";" ;:};
+
+
+condicion::= CONDICION_SI VARIABLE:v MAYOR_QUE cantidad:e1 fun:e2 
+                {:RESULT= "SI" + String.valueOf(v) + ">" + e1 + e2 ;:}
+             | CONDICION_SI VARIABLE:v MAYOR_QUE cantidad:e1 fun:e2 CONDICION_SINO fun:e3
+                {:RESULT= "SI" + String.valueOf(v) + ">" + e1 + e2+ "SINO" + e3 ;:};
+
+cantidad ::= cantidad:e1 DIGITO:n
+            {:RESULT= e1 + n ;:}
+            | DIGITO:n
+            {:RESULT= n ;:};
+
+*/
+
+
+
+
+
+
+
+
+
+
+// Grammar
+
+inicio       ::= INICIAR dec_variables:e1 cuerpo_programa:e2 TERMINAR PUNTO_COMA
+                    {: RESULT = "#include <iostream.h> \n#include <stdio.h> \n#include <conio.h> \n#include <stdlib.h> \nint main() { \n" + e1 + e2 + "\n getch(); \n}" ; :} ;
+
+
+dec_variables  ::= dec_variables:e1 dec_variable:e2
+                    {: RESULT = e1 + e2 ; :}
+                   |dec_variable:e1
+                    {: RESULT = e1; :} ;
+
+dec_variable::= tipo_variable:e1 lista_variables:e2 PUNTO_COMA 
+                    {: RESULT = e1 + e2 + ";" + "\n"; :} ;
+
+
+cuerpo_programa ::= menu:e1 condicion:e2
+                   {: RESULT = e1 + e2 ; :} ;
+
+tipo_variable::= TIPO_DATO_NUMERO
+                    {:  RESULT = "int "; :}
+                |TIPO_DATO_TEXTO
+                    {:  RESULT = "char "; :};
+
+
+lista_variables ::= lista_variables:e1 COMA VARIABLE:v
+                    {:  RESULT = e1 + ","  + String.valueOf(v); :}
+                 | VARIABLE:v
+                    {: RESULT= String.valueOf(v); :};
+
+
+fun ::= FUNCION VARIABLE:v LLAVE_A cuerpo_funcion:e1 LLAVE_C
+                {:  RESULT = "\n char Recetar [100];" + e1 ; :};
+
+
+cuerpo_funcion::= MEDICAMENTOF MEDIDAF
+                {:RESULT= "\n char medicamentoFuerte [100]; \n char medidaFuerte [100]; \n strcpy(medicamentoFuerte, \" Aspirina \"); \n strcpy(medidaFuerte, \" 500mg \"); \n cout<< \"La receta es: \" ; \n cout<<strcpy(Recetar,strcat(medicamentoFuerte,medidaFuerte));" ;:}
+                | MEDICAMENTOL MEDIDAL  
+                {:RESULT= "\n char medicamentoLeve [100]; \n char medidaLeve [100]; \n strcpy(medicamentoLeve,\" Acetaminofen \"); \n strcpy(medidaLeve,\" 100mg \"); \n cout<<\"La receta es: \" ; \n cout<<strcpy(Recetar,strcat(medicamentoLeve,medidaLeve));" ;:};
+
+
+menu::= MOSTRAR DOS_PUNTOS LITERAL:l PUNTO_COMA save:e1
+       {:RESULT= " cout<< \" " + String.valueOf(l) + " \" <<endl; " + e1 ;:}; 
+
+
+save::= GUARDAR DOS_PUNTOS lista_variables:e1 PUNTO_COMA
+        {:RESULT= "\ncin>>" + e1 + ";" ;:};
+
+
+condicion::= CONDICION_SI VARIABLE:v MAYOR_QUE cantidad:e1 fun:e2 
+                {:RESULT= "\n if (" + String.valueOf(v) + ">" + e1 +")" + "{" + e2 + "}" ;:}
+             | CONDICION_SI VARIABLE:v MAYOR_QUE cantidad:e1 fun:e2 CONDICION_SINO fun:e3
+                {:RESULT= "\n if (" + String.valueOf(v) + ">" + e1 + ")" +"{" + e2 + "\n}" + "else {" + e3 + "\n}";:};
+
+cantidad ::= cantidad:e1 DIGITO:n
+            {:RESULT= e1 + n ;:}
+            | DIGITO:n
+            {:RESULT= n ;:};
+
