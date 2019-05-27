@@ -13,14 +13,14 @@ GUARDAR: Nombre, Apellido, Edad, NombreSintoma, CantidadDiasSintoma;
 &
 
 SI CantidadDiasSintoma>8
-FUN RecetarFuerte
+FUNCION RecetarFuerte
 {
-MEDICAMENTOF MEDIDAF
+MEDICAMENTOFUERTE MEDIDAFUERTE
 }
-Sino
-FUN RecetarLigero
+SINO
+FUNCION RecetarLigero
 {
-MEDICAMENTOL MEDIDAL
+MEDICAMENTOLIGERO MEDIDALIGERA
 }
 
 @

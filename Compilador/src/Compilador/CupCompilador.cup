@@ -14,7 +14,7 @@ parser code {:
 
 
 /* Terminal symbols */
-terminal        String      FUNCION, MEDICAMENTOF, MEDICAMENTOL, MEDIDAF, MEDIDAL, DOS_PUNTOS, INICIAR, TERMINAR, LITERAL, CONDICION_SI, CONDICION_SINO,
+terminal        String      FUNCION, MEDICAMENTOFUERTE, MEDICAMENTOLIGERO, MEDIDAFUERTE, MEDIDALIGERA, DOS_PUNTOS, INICIAR, TERMINAR, LITERAL, CONDICION_SI, CONDICION_SINO,
                             TIPO_DATO_NUMERO, TIPO_DATO_TEXTO, PUNTO_COMA, LLAVE_A, LLAVE_C, MOSTRAR, GUARDAR, MAYOR_QUE, COMA, VARIABLE, DIGITO;
 
 
@@ -50,8 +50,8 @@ lista_variables ::= lista_variables COMA VARIABLE;
 
 fun ::= FUNCION VARIABLE LLAVE_A cuerpo_funcion LLAVE_C;
 
-cuerpo_funcion::= MEDICAMENTOF MEDIDAF
-                | MEDICAMENTOL MEDIDAL 
+cuerpo_funcion::= MEDICAMENTOFUERTE MEDIDAFUERTE
+                | MEDICAMENTOLIGERO MEDIDALIGERA
 
 menu::= MOSTRAR DOS_PUNTOS LITERAL PUNTO_COMA save;
 
@@ -107,10 +107,10 @@ fun ::= FUNCION VARIABLE:v LLAVE_A cuerpo_funcion:e1 LLAVE_C
                 {:  RESULT = "FUN" + String.valueOf(v) + "{" +  e1 + "}" ; :};
 
 
-cuerpo_funcion::= MEDICAMENTOF MEDIDAF
-                {:RESULT= "MEDICAMENTOF" + "MEDIDAF" ;:}
-                | MEDICAMENTOL MEDIDAL  
-                {:RESULT= "MEDICAMENTOL" + "MEDIDAL" ;:};
+cuerpo_funcion::= MEDICAMENTOFUERTE MEDIDAFUERTE
+                {:RESULT= "MEDICAMENTOFUERTE" + "MEDIDAFUERTE" ;:}
+                | MEDICAMENTOLIGERO MEDIDALIGERA 
+                {:RESULT= "MEDICAMENTOLIGERO" + "MEDIDALIGERA" ;:};
 
 
 menu::= MOSTRAR DOS_PUNTOS LITERAL:l PUNTO_COMA save:e1
@@ -176,9 +176,9 @@ fun ::= FUNCION VARIABLE:v LLAVE_A cuerpo_funcion:e1 LLAVE_C
                 {:  RESULT = "\n char Recetar [100];" + e1 ; :};
 
 
-cuerpo_funcion::= MEDICAMENTOF MEDIDAF
+cuerpo_funcion::= MEDICAMENTOFUERTE MEDIDAFUERTE
                 {:RESULT= "\n char medicamentoFuerte [100]; \n char medidaFuerte [100]; \n strcpy(medicamentoFuerte, \" Aspirina \"); \n strcpy(medidaFuerte, \" 500mg \"); \n cout<< \"La receta es: \" ; \n cout<<strcpy(Recetar,strcat(medicamentoFuerte,medidaFuerte));" ;:}
-                | MEDICAMENTOL MEDIDAL  
+                | MEDICAMENTOLIGERO MEDIDALIGERA  
                 {:RESULT= "\n char medicamentoLeve [100]; \n char medidaLeve [100]; \n strcpy(medicamentoLeve,\" Acetaminofen \"); \n strcpy(medidaLeve,\" 100mg \"); \n cout<<\"La receta es: \" ; \n cout<<strcpy(Recetar,strcat(medicamentoLeve,medidaLeve));" ;:};
 
 

@@ -39,7 +39,7 @@ VAR                     =   {LETRA}*|({LETRA}*{dig}*)
                         return new Symbol(sym.TERMINAR, yyline, yycolumn, yytext());
                  }
 
-"FUN"            {
+"FUNCION"            {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.FUNCION, yyline, yycolumn, yytext());
@@ -51,7 +51,7 @@ VAR                     =   {LETRA}*|({LETRA}*{dig}*)
                         return new Symbol(sym.CONDICION_SI, yyline, yycolumn, yytext());
                  }
 
-"Sino"           {
+"SINO"           {
                        
                         System.out.println("Lexema: " + yytext());
                         return new Symbol(sym.CONDICION_SINO, yyline, yycolumn, yytext());
@@ -115,25 +115,25 @@ VAR                     =   {LETRA}*|({LETRA}*{dig}*)
                         return new Symbol(sym.COMA, yyline, yycolumn, yytext());
                  }
 
-"MEDICAMENTOF"   {
+"MEDICAMENTOFUERTE"   {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDICAMENTOF, yyline, yycolumn, yytext());
                  }
 
-"MEDICAMENTOL"   {
+"MEDICAMENTOLIGERO"   {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDICAMENTOL, yyline, yycolumn, yytext());
                  }
 
-"MEDIDAF"            {
+"MEDIDAFUERTE"            {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDIDAF, yyline, yycolumn, yytext());
                  }
 
-"MEDIDAL"            {
+"MEDIDALIGERA"            {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDIDAL, yyline, yycolumn, yytext());
