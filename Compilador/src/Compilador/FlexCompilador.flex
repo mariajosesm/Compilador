@@ -121,7 +121,7 @@ VAR                     =   {LETRA}*|({LETRA}*{dig}*)
                        return new Symbol(sym.MEDICAMENTOF, yyline, yycolumn, yytext());
                  }
 
-"MEDICAMENTOLIGERO"   {
+"MEDICAMENTOLEVE"   {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDICAMENTOL, yyline, yycolumn, yytext());
@@ -133,7 +133,7 @@ VAR                     =   {LETRA}*|({LETRA}*{dig}*)
                        return new Symbol(sym.MEDIDAF, yyline, yycolumn, yytext());
                  }
 
-"MEDIDALIGERA"            {
+"MEDIDALEVE"            {
                        
                        System.out.println("Lexema: " + yytext());
                        return new Symbol(sym.MEDIDAL, yyline, yycolumn, yytext());
